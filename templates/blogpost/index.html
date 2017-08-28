@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="col-md-8">
+
+    <h1 class="page-header">
+        Tiger's Blog Home
+        <small>Secondary Text</small>
+    </h1>
+
+    <!-- First Blog Post -->
+    {% for post in post_list %}
+    <h2>
+        <a href="{% url 'detail' id=post.id %}">{{ post.title }}</a>
+    </h2>
+    <p>
+        by <a href="#">{{ post.author }} </a>
+        <span class="glyphicon glyphicon-eye-open"></span> {{ post.views }}
+    </p>
+    <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created|date:"Y /m /d" }}</p>
+
+    <p>{{ post.content|truncatechars:100 }}</p>
+    <a class="btn btn-primary" href="{% url 'detail' id=post.id %}">阅 读 <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+    <hr>
+    {% endfor %}
+
+    <!-- Pager -->
+    <ul class="pager">
+        {% if post_list.has_previous %}
+        <li class="previous">
+            <a href="?page={{ post_list.previous_page_number }}"><span class="glyphicon glyphicon-chevron-left"></span>上一页</a>
+        </li>
+        {% endif %}
+
+        {% if post_list.has_next %}
+        <li class="next">
+            <a href="?page={{ post_list.next_page_number }}">下一页<span class="glyphicon glyphicon-chevron-right"></span></a>
+        </li>
+        {% endif %}
+    </ul>
+
+</div>
+
+{% endblock %}
